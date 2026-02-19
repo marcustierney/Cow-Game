@@ -16,7 +16,7 @@ class Credits extends Phaser.Scene {
             fontStyle: 'bold', 
             color: '#FFFFFF' 
         }).setOrigin(0.5);
-        this.add.text(game.config.width / 2, 150, 'Farmyard dance mix #1.wav by gpzDave', { 
+        this.add.text(game.config.width / 2, 150, 'Chicken Farm by SintelV', { 
             fontFamily: 'Courier', 
             fontSize: '32px', 
             fontStyle: 'bold', 
@@ -52,9 +52,9 @@ class Credits extends Phaser.Scene {
             fontStyle: 'bold', 
             color: '#FFFFFF' 
         }).setOrigin(0.5);
-        this.add.text(game.config.width / 2, 410, 'Horse Neighing OWI by Gingerhoney', { 
+        this.add.text(game.config.width / 2, 410, 'Renill de cavall / Horse Neigh by Rudmer_Rotteveel', { 
             fontFamily: 'Courier', 
-            fontSize: '32px', 
+            fontSize: '24px', 
             fontStyle: 'bold', 
             color: '#FFFFFF' 
         }).setOrigin(0.5);

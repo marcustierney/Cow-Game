@@ -6,12 +6,12 @@ class Over extends Phaser.Scene {
         this.load.image('gameover-bg', './assets/menu-background.png');
     }
     init(data) {
-        this.finalScore = data.finalScore || 0; // Get elapsed time, default to 0 if undefined
+        this.finalScore = data.finalScore || 0; //Get elapsed time, default to 0 if undefined
         this.highScore = localStorage.getItem('highScore') ? parseFloat(localStorage.getItem('highScore')) : 0;
-        // Update high score if current score is greater
+        //Update high score if current score is greater
         if (this.finalScore > this.highScore) {
             this.highScore = this.finalScore;
-            localStorage.setItem('highScore', this.highScore); // Save new high score
+            localStorage.setItem('highScore', this.highScore); //Save new high score
         }
     }
 
@@ -39,7 +39,7 @@ class Over extends Phaser.Scene {
             color: '#FFFFFF' 
         }).setOrigin(0.5);
 
-        // Display "HIGH SCORE"
+        //Display "HIGH SCORE"
         this.add.text(game.config.width / 2, 200, 'HIGH SCORE', { 
             fontFamily: 'Courier', 
             fontSize: '32px', 
@@ -47,7 +47,7 @@ class Over extends Phaser.Scene {
             color: '#FFD700' 
         }).setOrigin(0.5);
 
-        // Display the highest score
+        //Display the highest score
         this.add.text(game.config.width / 2, 250, this.highScore + ' Points', { 
             fontFamily: 'Courier', 
             fontSize: '32px', 

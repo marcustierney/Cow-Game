@@ -3,7 +3,7 @@ class Menu extends Phaser.Scene {
         super("menuScene")
     }
     preload() {
-        // load images/tile sprites
+        //Load images/tile sprites
         this.load.image('background', './assets/background.png')
         this.load.image('arrows', './assets/arrows.png')
         this.load.image('esc', './assets/esc.png')
@@ -16,7 +16,7 @@ class Menu extends Phaser.Scene {
         this.load.spritesheet('character', './assets/Character_002.png', {
             frameWidth: 48
         })
-        // load audio
+        //Load audio
         this.load.audio('background-music', './assets/background-music.wav')
         this.load.audio('play-music', './assets/play-music.wav')
         this.load.audio('gameover', './assets/gameover.wav')
@@ -45,7 +45,7 @@ class Menu extends Phaser.Scene {
             align: 'right',
             fixedWidth: 0
         }
-        // display menu text
+        //Display menu text
         this.background = this.add.tileSprite(0, 0, 800, 800, 'menu-background').setOrigin(0, 0)
         this.add.image(game.config.width - 50, -5, 'arrows').setOrigin(1, 0).setScale(.6)
         this.add.image(520, 25, 'esc').setOrigin(1, 0).setScale(.6)
@@ -56,12 +56,12 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, 700, 'FARM ATTACK', menuConfig).setOrigin(0.5)
         menuConfig.backgroundColor = '#00FF00'
         menuConfig.color = '#000'
-        // define keys
+        //Define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)     
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC) 
-        //play music
+        //Play music
         this.music = this.sound.add('background-music', { 
             volume: 0.5, 
             loop: true 

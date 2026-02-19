@@ -8,17 +8,16 @@ class Play extends Phaser.Scene {
         this.BALL_SPEED = 200;
         this.BALL_SPEED_INCREMENT = 50;
         this.ISPAUSED = false;
-        this.ballVelocities = []; // To store each ball's velocity when paused
-        this.elapsedTime = 0;  // Time counter in seconds
+        this.ballVelocities = []; //To store each ball's velocity when paused
+        this.elapsedTime = 0;  
     }
 
     create() {
-            // Place tile sprite
             this.background = this.add.tileSprite(0, 0, 800, 800, 'background').setOrigin(0, 0)
             //Add normalized sprite movement
             this.player = this.physics.add.sprite(width / 2, height / 2, 'character', 1).setScale(2)
             this.player.body.setCollideWorldBounds(true) 
-            this.player.body.onWorldBounds = true; // Triggers bounce logic
+            this.player.body.onWorldBounds = true; 
             this.player.body.setSize(32, 32).setOffset(8, 16)
     
             this.anims.create({
@@ -78,7 +77,7 @@ class Play extends Phaser.Scene {
             this.time.addEvent({ delay: 1000, callback: this.spawnBall, callbackScope: this, loop: true });
             this.physics.add.overlap(this.player, this.balls, this.gameOver, null, this); //If player touches ball
 
-            this.time.addEvent({delay: 5000, callback: this.increaseBallSpeed, callbackScope: this,loop: true}); //calls increaseBallSpeed
+            this.time.addEvent({delay: 5000, callback: this.increaseBallSpeed, callbackScope: this,loop: true}); //Calls increaseBallSpeed
 
             this.pauseText = this.add.text(width / 2, height / 2, 'PAUSED', { //Pause text
                 fontSize: '48px',
@@ -86,133 +85,130 @@ class Play extends Phaser.Scene {
                 fontStyle: 'bold',
             }).setOrigin(0.5).setVisible(false);
 
-            this.timeText = this.add.text(width / 2, 16, 'Time: 0', { //Timer text
+            this.timeText = this.add.text(width / 2, 16, 'Points: 0', { //Timer text
                 fontSize: '32px',
                 fill: '#fff',
                 fontStyle: 'bold',
             }).setOrigin(0.5, 0);
 
             this.timeEvent = this.time.addEvent({
-                delay: 1000, // 1000 ms = 1 second
+                delay: 1000, //1000 ms = 1 second
                 callback: this.updateTime,
                 callbackScope: this,
                 loop: true
             });
             this.music = this.sound.add('play-music', { 
-                volume: 0.5, // Adjust volume (0.0 to 1.0)
-                loop: true // Loop the music
+                volume: 0.5, 
+                loop: true 
             });
             this.music.play();
     }
 
     updateTime() {
-        this.elapsedTime++;  // Increment time counter
-        this.timeText.setText('Points: ' + this.elapsedTime);  // Update the text with the new time
+        this.elapsedTime++;  
+        this.timeText.setText('Points: ' + this.elapsedTime);  
     }
-
     spawnBall() {
-        let edge = Phaser.Math.Between(0, 3); //random edge of the screen
+        let edge = Phaser.Math.Between(0, 3); 
         let x, y, velocityX, velocityY, ballType;
 
-        let isDiagonal = Phaser.Math.Between(0, 3) === 0; // 25% chance of diagonal movement
-        let isBigBall = Phaser.Math.Between(0, 4) === 0; // 20% chance for a big ball
+        let isDiagonal = Phaser.Math.Between(0, 3) === 0; //25% chance of diagonal movement
+        let isBigBall = Phaser.Math.Between(0, 4) === 0; //20% chance for a big ball
 
         if (isBigBall) {
             ballType = 'big-ball';
             switch (edge) {
-                case 0: // Top edge
+                case 0: //Top edge
                     x = Phaser.Math.Between(0, width);
                     y = 0;
                     velocityX = 0;
                     velocityY = this.BALL_SPEED * 0.5;
-                    ballType = 'big-ball'; // Standard ball asset
+                    ballType = 'big-ball';
                     break;
-                case 1: // Bottom edge
+                case 1: //Bottom edge
                     x = Phaser.Math.Between(0, width);
                     y = height;
                     velocityX = 0;
                     velocityY = -this.BALL_SPEED * 0.5;
-                    ballType = 'big-ball'; // Standard ball asset
+                    ballType = 'big-ball'; 
                     break;
-                case 2: // Left edge
+                case 2: //Left edge
                     x = 0;
                     y = Phaser.Math.Between(0, height);
                     velocityX = this.BALL_SPEED * 0.5;
                     velocityY = 0;
-                    ballType = 'big-ball'; // Standard ball asset
+                    ballType = 'big-ball'; 
                     break;
-                case 3: // Right edge
+                case 3: //Right edge
                     x = width;
                     y = Phaser.Math.Between(0, height);
                     velocityX = -this.BALL_SPEED * 0.5;
                     velocityY = 0;
-                    ballType = 'big-ball'; // Standard ball asset
+                    ballType = 'big-ball'; 
                     break;
             }
         }
         else if (isDiagonal) {
-            // Diagonal ball movement
-            let diagonalDirection = Phaser.Math.Between(0, 3); // Random diagonal direction
+            let diagonalDirection = Phaser.Math.Between(0, 3); //Random diagonal direction
             switch (diagonalDirection) {
-                case 0: // Top-left
+                case 0: //Top-left
                     x = width;
                     y = height;
                     velocityX = -this.BALL_SPEED * 1.2;
                     velocityY = -this.BALL_SPEED * 1.2;
-                    ballType = 'ball-diagonal'; // Diagonal ball asset
+                    ballType = 'ball-diagonal'; 
                     break;
-                case 1: // Top-right
+                case 1: //Top-right
                     x = 0;
                     y = height;
                     velocityX = this.BALL_SPEED * 1.2;
                     velocityY = -this.BALL_SPEED * 1.2;
-                    ballType = 'ball-diagonal'; // Diagonal ball asset
+                    ballType = 'ball-diagonal'; 
                     break;
-                case 2: // Bottom-left
+                case 2: //Bottom-left
                     x = width;
                     y = 0;
                     velocityX = -this.BALL_SPEED * 1.2;
                     velocityY = this.BALL_SPEED * 1.2;
-                    ballType = 'ball-diagonal'; // Diagonal ball asset
+                    ballType = 'ball-diagonal'; 
                     break;
-                case 3: // Bottom-right
+                case 3: //Bottom-right
                     x = 0;
                     y = 0;
                     velocityX = this.BALL_SPEED * 1.2;
                     velocityY = this.BALL_SPEED * 1.2;
-                    ballType = 'ball-diagonal'; // Diagonal ball asset
+                    ballType = 'ball-diagonal'; 
                     break;
             }
         } else {
-            // Standard edge spawning
             switch (edge) {
-                case 0: // Top edge
+                case 0: //Top edge
                     x = Phaser.Math.Between(0, width);
                     y = 0;
                     velocityX = 0;
                     velocityY = this.BALL_SPEED;
-                    ballType = 'ball'; // Standard ball asset
+                    ballType = 'ball'; 
                     break;
-                case 1: // Bottom edge
+                case 1: //Bottom edge
                     x = Phaser.Math.Between(0, width);
                     y = height;
                     velocityX = 0;
                     velocityY = -this.BALL_SPEED;
-                    ballType = 'ball'; // Standard ball asset
+                    ballType = 'ball'; 
                     break;
-                case 2: // Left edge
+                case 2: //Left edge
                     x = 0;
                     y = Phaser.Math.Between(0, height);
                     velocityX = this.BALL_SPEED;
                     velocityY = 0;
-                    ballType = 'ball2'; // Standard ball asset
+                    ballType = 'ball2'; 
                     break;
-                case 3: // Right edge
+                case 3: //Right edge
                     x = width;
                     y = Phaser.Math.Between(0, height);
                     velocityX = -this.BALL_SPEED;
                     velocityY = 0;
-                    ballType = 'ball2'; // Standard ball asset
+                    ballType = 'ball2'; 
                     break;
             }
         }
@@ -220,61 +216,59 @@ class Play extends Phaser.Scene {
         ball.setVelocity(velocityX, velocityY);
         ball.setCollideWorldBounds(false);
         if (ballType === 'big-ball') {
-            ball.setScale(1.5);
-            this.sound.play('oink');
+            ball.setScale(1.3);
+            this.sound.play('oink', { volume: 0.7});
         }
         else if (ballType === 'ball-diagonal') {
-            ball.setScale(.9);
-            this.sound.play('neigh', { volume: 3.0 });
+            ball.setScale(1.2);
+            this.sound.play('neigh', { volume: 0.7});
         }
         else if (ballType === 'ball2') {
-            ball.setScale(.8);
-            this.sound.play('cluck');
+            ball.setScale(.7);
+            this.sound.play('cluck', { volume: 0.4});
         }
         else {
-            ball.setScale(.8);
-            this.sound.play('moo');
+            ball.setScale(1);
+            this.sound.play('moo', { volume: 0.7 });
         }
         //Sound effects
 
 
-        this.ballVelocities.push({ ball: ball, velocity: ball.body.velocity.clone() }); // Store ball velocity
+        this.ballVelocities.push({ ball: ball, velocity: ball.body.velocity.clone() }); //Store ball velocity
     }
 
     increaseBallSpeed() {
-        this.BALL_SPEED += this.BALL_SPEED_INCREMENT; // Increase ball speed
+        this.BALL_SPEED += this.BALL_SPEED_INCREMENT; //Increase ball speed
     }
 
     togglePause() {
-        this.ISPAUSED = !this.ISPAUSED; // Toggle pause state
+        this.ISPAUSED = !this.ISPAUSED; 
 
         if (this.ISPAUSED) {
-            // Pause the game (no updates should happen)
-            this.time.paused = true;  // Pause the timer events as well
+            this.time.paused = true; 
             this.music.pause();
             this.player.setVelocity(0, 0);
 
-            // Store all ball velocities
+            //Store all ball velocities
             this.balls.children.iterate((ball) => {
                 if (ball && ball.active) {
                     this.ballVelocities.push({ ball: ball, velocity: ball.body.velocity.clone() });
-                    ball.setVelocity(0, 0);  // Stop ball movement
+                    ball.setVelocity(0, 0);  
                 }
             });
             this.pauseText.setVisible(true);
 
         } else {
-            // Resume the game
-            this.time.paused = false; // Resume the timer events
+            this.time.paused = false; 
 
             
-            // Restore all ball velocities to their previous states
+            //Restore all ball velocities to their previous states
             this.ballVelocities.forEach((ballData) => {
                 if (ballData.ball && ballData.ball.active) {
                     ballData.ball.setVelocity(ballData.velocity.x, ballData.velocity.y);
                 }
             });
-            // Clear the ball velocities list once resumed
+            //Clear the ball velocities list once resumed
             this.ballVelocities = [];
             this.pauseText.setVisible(false);
             this.music.resume();
@@ -294,7 +288,6 @@ class Play extends Phaser.Scene {
 
 
         let playerVector = new Phaser.Math.Vector2(0, 0)
-        // Check for input and update last direction
         if (cursors.left.isDown) {
             playerVector.x = -1
             this.lastDirection = 'left'
@@ -311,10 +304,10 @@ class Play extends Phaser.Scene {
             this.lastDirection = 'down'
         }
         
-        // Normalize for consistent speed
+        //Normalize for consistent speed
         playerVector.normalize()
         
-        // If no input, continue moving in last direction
+        //If no input, continue moving in last direction
         if (playerVector.length() == 0) { 
             switch (this.lastDirection) {
                 case 'left':
@@ -331,18 +324,18 @@ class Play extends Phaser.Scene {
                     break;
             }
         }
-        // Apply velocity
+        //Apply velocity
         this.player.setVelocity(this.PLAYER_VELOCITY * playerVector.x, this.PLAYER_VELOCITY * playerVector.y);
 
-        // Determine movement state
-        let playerMovement = 'walk'; // Always walking
+        //Determine movement state
+        let playerMovement = 'walk'; 
         this.player.play(playerMovement + '-' + this.lastDirection, true);
 
-        // Update background position to create the looping effect
+        //Update background position to create the looping effect
         this.background.tilePositionX += 1; 
 
         this.balls.children.iterate((ball) => {
-            if (ball && ball.active) {  // Ensure ball exists before accessing properties
+            if (ball && ball.active) {  //Ensure ball exists before accessing properties
                 if (ball.x < -50 || ball.x > this.scale.width + 50 || ball.y < -50 || ball.y > this.scale.height + 50) {
                     ball.destroy();
                 }
